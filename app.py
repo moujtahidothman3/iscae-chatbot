@@ -12,7 +12,7 @@ from sentence_transformers import SentenceTransformer
 
 KNOWLEDGE_BASE_PATH = "knowledge_base.pkl"
 GROQ_MODEL          = "llama-3.3-70b-versatile"
-TOP_K               = 8
+TOP_K               = 10
 
 SYSTEM_PROMPT = """Tu es le chatbot officiel d'ISCAE ACCESS, au service des étudiants, futurs candidats et professionnels du Groupe ISCAE.
 
