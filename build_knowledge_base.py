@@ -10,7 +10,7 @@ def read_docx(path):
     doc = Document(path)
     return "\n".join(p.text for p in doc.paragraphs if p.text.strip())
 
-def split_chunks(text, size=650, overlap=100):
+def split_chunks(text, size=800, overlap=150):
     chunks, start = [], 0
     while start < len(text):
         chunk = text[start:start+size]
