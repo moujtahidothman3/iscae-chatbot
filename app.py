@@ -47,13 +47,29 @@ def initialize():
     print("✅ Prêt sur http://localhost:5000\n")
 
 def search(question):
+    # Recherche principale
     q_vec = emb_model.encode([question])
-    _, idx = faiss_index.search(np.array(q_vec, dtype="float32"), TOP_K)
+    _, idx = faiss_index.search(
+        np.array(q_vec, dtype="float32"), TOP_K
+    )
     parts, used = [], set()
     for i, j in enumerate(idx[0]):
         if j < len(chunks):
-            parts.append(f"[Extrait {i+1} — {sources[j]}]\n{chunks[j]}")
+            parts.append(
+                f"[Extrait {i+1} — {sources[j]}]\n{chunks[j]}"
+            )
             used.add(sources[j])
+    
+    # Recherche avec mots-clés en plus
+    keywords = question.lower().split()
+    for i, chunk in enumerate(chunks):
+        if any(kw in chunk.lower() for kw in keywords):
+            if i not in idx[0] and len(parts) < TOP_K + 3:
+                parts.append(
+                    f"[Extrait bonus — {sources[i]}]\n{chunks[i]}"
+                )
+                used.add(sources[i])
+    
     return "\n\n".join(parts), list(used)
 
 HTML = """<!DOCTYPE html>
