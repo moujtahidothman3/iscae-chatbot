@@ -7,26 +7,10 @@ from sentence_transformers import SentenceTransformer
 import faiss
 
 def read_docx(path):
-    from docx import Document
     doc = Document(path)
-    content = []
-    # Lire les paragraphes
-    for p in doc.paragraphs:
-        if p.text.strip():
-            content.append(p.text.strip())
-    # Lire les tableaux
-    for table in doc.tables:
-        for row in table.rows:
-            row_text = " | ".join(
-                cell.text.strip() 
-                for cell in row.cells 
-                if cell.text.strip()
-            )
-            if row_text:
-                content.append(row_text)
-    return "\n".join(content)
+    return "\n".join(p.text for p in doc.paragraphs if p.text.strip())
 
-def split_chunks(text, size=800, overlap=150):
+def split_chunks(text, size=650, overlap=100):
     chunks, start = [], 0
     while start < len(text):
         chunk = text[start:start+size]
