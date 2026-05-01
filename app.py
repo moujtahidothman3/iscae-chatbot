@@ -285,5 +285,5 @@ if __name__=="__main__":
     print("="*50)
     print("  🎓 ISCAE ACCESS Chatbot")
     print("  ➤  http://localhost:5000")
-    pport = int(os.environ.get("PORT", 5000))
+port = int(os.environ.get("PORT", 5000))
 app.run(debug=False, host="0.0.0.0", port=port)
